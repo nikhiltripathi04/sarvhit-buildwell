@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+@layer components {
+  .parallax-bg {
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .scroll-blend {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scroll-blend::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(0, 0, 0, 0.05) 50%,
+      transparent 100%
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .scroll-blend > * {
+    position: relative;
+    z-index: 2;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 7%;
+    --foreground: 0 0% 95%;
+
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 162 65% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 95%;
+
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 60%;
+
+    --accent: 210 85% 25%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 162 65% 55%;
+
+    --radius: 0.25rem;
+
+    --gradient-dark: linear-gradient(180deg, hsl(0 0% 7%) 0%, hsl(0 0% 10%) 100%);
+    --gradient-overlay: linear-gradient(90deg, hsl(0 0% 7% / 0.9) 0%, hsl(0 0% 7% / 0.3) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(162 65% 55%) 0%, hsl(162 65% 45%) 100%);
+    
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --bg-image: url('/backgrounds/dark-bg.png');
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    /* Page background: layered gradient overlay above the image (image set via --bg-image) */
+    background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.35)), var(--bg-image);
+    background-size: cover, cover;
+    background-position: center center, center center;
+    background-repeat: no-repeat, no-repeat;
+    background-attachment: fixed, fixed;
+    /* Ensure the background color blends if image fails */
+    background-color: hsl(var(--background));
+    background-blend-mode: overlay;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+  }
+
+  .bg-texture-dark {
+    background-image: url('/src/assets/texture.png'); 
+    background-repeat: repeat;
+    background-color: #1a1a1a; 
+}
+  
+
+  /* On small screens, don't fix the background for performance */
+  @media (max-width: 640px) {
+    body {
+      background-attachment: scroll, scroll;
+    }
+    .parallax-bg {
+    background-attachment: scroll;
+  }
+  }
+}
